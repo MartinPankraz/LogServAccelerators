@@ -3,12 +3,18 @@
 ### Variables can be defined at the top or in a separate .env file
 
 ### Variables
-@Entra-ID-tenant = 12345678-1234-1234-1234-123456789abc                 # Azure AD Tenant ID (GUID format)
-@LogServ-Entra-App-Id = 87654321-4321-4321-4321-abcdef123456            # Azure App Registration Client ID
-@LogServ-Entra-App-Secret = ABC123~def456GHI789jkl012MNO345pqr678STU901 # Azure App Registration Client Secret
-@DCE-hostname = dce-sample-hostname-1234.region-1                       # Data Collection Endpoint hostname (without https://)
-@DCR-immutable-id = dcr-abcd1234efgh5678ijkl9012mnop3456                # Data Collection Rule immutable ID
-@bearerToken = {{getEntraToken.response.body.access_token}}             # Auto-populated from token request
+### Azure AD Tenant ID (GUID format)
+@Entra-ID-tenant = 12345678-1234-1234-1234-123456789abc
+### Azure App Registration Client ID
+@LogServ-Entra-App-Id = 87654321-4321-4321-4321-abcdef123456
+### Azure App Registration Client Secret
+@LogServ-Entra-App-Secret = ABC123~def456GHI789jkl012MNO345pqr678STU901
+### Data Collection Endpoint hostname (without https://)
+@DCE-hostname = dce-sample-hostname-1234.region-1
+### Data Collection Rule immutable ID
+@DCR-immutable-id = dcr-abcd1234efgh5678ijkl9012mnop3456
+### Auto-populated from token request
+@bearerToken = {{getEntraToken.response.body.access_token}}
 
 ### Get Entra Token
 # @name getEntraToken
