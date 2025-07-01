@@ -12,7 +12,7 @@
           "script": {
             "exec": [
               "const now = Math.floor((Date.now() - 30 * 60 * 1000) / 1000);",
-              "bru.setEnvVar(\"now\", now);"
+              "bru.setEnvVar(\"30mAgo\", now);"
             ]
           }
         }
@@ -40,7 +40,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "[\n    {\n        \"_time\": {{now}},\n        \"host\": \"hec53v013858\",\n        \"_raw\": \"2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 \",\n        \"source\": \"/var/log/firewall\",\n        \"cribl_breaker\": \"fallback\",\n        \"index\": \"hec53_os\",\n        \"sourcetype\": \"linux_secure\",\n        \"clz_dir\": \"linux\",\n        \"clz_subdir\": \"linux_secure\",\n        \"cribl_pipe\": \"CGS_filemonitor_P\"\n    }\n]",
+          "raw": "[\n    {\n        \"_time\": {{30mAgo}},\n        \"host\": \"hec53v013858\",\n        \"_raw\": \"2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 \",\n        \"source\": \"/var/log/firewall\",\n        \"cribl_breaker\": \"fallback\",\n        \"index\": \"hec53_os\",\n        \"sourcetype\": \"linux_secure\",\n        \"clz_dir\": \"linux\",\n        \"clz_subdir\": \"linux_secure\",\n        \"cribl_pipe\": \"CGS_filemonitor_P\"\n    }\n]",
           "options": {
             "raw": {
               "language": "json"
@@ -119,7 +119,7 @@
       "type": "default"
     },
     {
-      "key": "now",
+      "key": "30mAgo",
       "value": "",
       "type": "default"
     },
