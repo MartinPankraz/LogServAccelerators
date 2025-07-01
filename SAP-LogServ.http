@@ -1,0 +1,42 @@
+### SAP LogServ REST Client
+### This file can be used with the REST Client extension in VS Code
+### Variables can be defined at the top or in a separate .env file
+
+### Variables
+@Entra-ID-tenant = your-tenant-id
+@LogServ-Entra-App-Id = your-app-id
+@LogServ-Entra-App-Secret = your-app-secret
+@DCE-hostname = your-dce-hostname
+@DCR-immutable-id = your-dcr-immutable-id
+@bearerToken = {{getEntraToken.response.body.access_token}}
+
+### Get Entra Token
+# @name getEntraToken
+POST https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{LogServ-Entra-App-Id}}
+&client_secret={{LogServ-Entra-App-Secret}}
+&scope=https://monitor.azure.com/.default
+&grant_type=client_credentials
+
+### Smoke Test
+# @name smokeTest
+POST https://{{DCE-hostname}}.ingest.monitor.azure.com/dataCollectionRules/{{DCR-immutable-id}}/streams/Custom-SAPLogServ_CL?api-version=2023-01-01
+Authorization: Bearer {{bearerToken}}
+Content-Type: application/json
+
+[
+    {
+        "_time": {{$timestamp}},
+        "host": "hec53v013858",
+        "_raw": "2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 ",
+        "source": "/var/log/firewall",
+        "cribl_breaker": "fallback",
+        "index": "hec53_os",
+        "sourcetype": "linux_secure",
+        "clz_dir": "linux",
+        "clz_subdir": "linux_secure",
+        "cribl_pipe": "CGS_filemonitor_P"
+    }
+]

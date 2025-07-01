@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "SAP LogServ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Smoke Test",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const now = Math.floor((Date.now() - 30 * 60 * 1000) / 1000);",
+              "bru.setEnvVar(\"now\", now);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://{{DCE-hostname}}.ingest.monitor.azure.com/dataCollectionRules/{{DCR-immutable-id}}/streams/Custom-SAPLogServ_CL?api-version=2023-01-01",
+          "host": [
+            "%7B%7Bdce-hostname%7D%7D",
+            "ingest",
+            "monitor",
+            "azure",
+            "com"
+          ],
+          "path": [],
+          "query": [
+            {
+              "key": "api-version",
+              "value": "2023-01-01"
+            }
+          ],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[\n    {\n        \"_time\": {{now}},\n        \"host\": \"hec53v013858\",\n        \"_raw\": \"2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 \",\n        \"source\": \"/var/log/firewall\",\n        \"cribl_breaker\": \"fallback\",\n        \"index\": \"hec53_os\",\n        \"sourcetype\": \"linux_secure\",\n        \"clz_dir\": \"linux\",\n        \"clz_subdir\": \"linux_secure\",\n        \"cribl_pipe\": \"CGS_filemonitor_P\"\n    }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get Entra token",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token",
+          "host": [
+            "login",
+            "microsoftonline",
+            "com"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{LogServ-Entra-App-Id}}",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{LogServ-Entra-App-Secret}}",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "scope",
+              "value": "https://monitor.azure.com/.default",
+              "disabled": false,
+              "type": "default"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "disabled": false,
+              "type": "default"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "DCE-hostname",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "DCR-immutable-id",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "bearerToken",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "now",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "Entra-ID-tenant",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "LogServ-Entra-App-Id",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "LogServ-Entra-App-Secret",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
