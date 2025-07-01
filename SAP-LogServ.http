@@ -1,6 +1,5 @@
 ### SAP LogServ REST Client
 ### This file can be used with the REST Client extension in VS Code
-### Variables can be defined at the top or in a separate .env file
 
 ### Variables
 ### Azure AD Tenant ID (GUID format)
