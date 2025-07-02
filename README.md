@@ -22,7 +22,7 @@ If needed install required tools:
 
 - [Bruno REST client](https://www.usebruno.com/), or
 
-- Run the provided bash script
+- Run the provided bash scripts from your machine.
 
 > [!TIP]
 > Bruno collections can be migrated to Postman if needed.
