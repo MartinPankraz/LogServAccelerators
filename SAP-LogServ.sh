@@ -10,7 +10,7 @@ DCR_ID="YOUR-DCR-IMMUTABLE-ID-HERE"
 SCOPE="https://monitor.azure.com/.default"  
 
 # Calculate timestamp (current time in Unix format)
-TIMESTAMP=$(date +%s)
+TIMESTAMP=$(date -d '30 seconds ago' +%s)
 
 echo "Getting authentication token for Data Collection Endpoint from Entra ID..."
 
@@ -24,7 +24,7 @@ MONITOR_JWT_TOKEN=$(curl -s -X POST \
     -d "grant_type=client_credentials" \
     | jq -r '.access_token')
 
-UPLOAD_URI="https://$DCE_URI.ingest.monitor.azure.com/dataCollectionRules/$DCR_ID/streams/Custom-SAPLogServ_CL?api-version=2023-01-01"
+UPLOAD_URI="$DCE_URI/dataCollectionRules/$DCR_ID/streams/Custom-SAPLogServ_CL?api-version=2023-01-01"
 
 echo "Posting sample LogServ JSON data with current time($TIMESTAMP) to $UPLOAD_URI"
 
