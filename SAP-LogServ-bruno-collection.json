@@ -40,8 +40,8 @@
     },
     {
       "type": "http",
-      "name": "Get Entra token",
-      "seq": 2,
+      "name": "Get Entra token for Smoke Test",
+      "seq": 1,
       "request": {
         "url": "https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token",
         "method": "POST",
@@ -83,8 +83,280 @@
           "mode": "none"
         }
       }
+    },
+    {
+      "type": "http",
+      "name": "List Data Collection Endpoints",
+      "seq": 4,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Insights/dataCollectionEndpoints?api-version=2023-03-11",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2023-03-11",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Connector Definitions",
+      "seq": 6,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions?api-version=2025-06-01",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2025-06-01",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Delete Data Collection Endpoint",
+      "seq": 5,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Insights/dataCollectionEndpoints/{{DCE-Name}}?api-version=2023-03-11",
+        "method": "DELETE",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2023-03-11",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "DCE-Name",
+              "value": "ASI-",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Connectors",
+      "seq": 8,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2025-04-01-preview",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2025-04-01-preview",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Delete Data Connector",
+      "seq": 9,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors/{{dataConnectorName}}?api-version=2025-04-01-preview",
+        "method": "DELETE",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2025-04-01-preview",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "dataConnectorName",
+              "value": "",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Get Entra token for ARM",
+      "seq": 2,
+      "request": {
+        "url": "https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "formUrlEncoded",
+          "formUrlEncoded": [
+            {
+              "name": "client_id",
+              "value": "{{LogServ-Entra-App-Id}}",
+              "enabled": true
+            },
+            {
+              "name": "client_secret",
+              "value": "{{LogServ-Entra-App-Secret}}",
+              "enabled": true
+            },
+            {
+              "name": "grant_type",
+              "value": "client_credentials",
+              "enabled": true
+            },
+            {
+              "name": "scope",
+              "value": "https://management.azure.com/.default",
+              "enabled": true
+            }
+          ],
+          "multipartForm": []
+        },
+        "script": {
+          "res": "var json = res.getBody();\nbru.setVar(\"bearerToken\", json.access_token);"
+        },
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Delete Data Connector Definition",
+      "seq": 7,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions/{{ConnectorDefinition}}?api-version=2025-06-01",
+        "method": "DELETE",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2025-06-01",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "ConnectorDefinition",
+              "value": "SAPLogServ",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
     }
   ],
+  "activeEnvironmentUid": "",
   "environments": [
     {
       "variables": [
@@ -118,6 +390,27 @@
         },
         {
           "name": "DCE-hostname",
+          "value": "",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "subscriptionId",
+          "value": "",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "workspaceName",
+          "value": "",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "resourceGroupName",
           "value": "",
           "enabled": true,
           "secret": false,
