@@ -4,142 +4,36 @@
   "items": [
     {
       "type": "http",
-      "name": "Smoke Test",
-      "seq": 3,
+      "name": "Delete Data Connector",
+      "seq": 9,
       "request": {
-        "url": "https://{{DCE-hostname}}.ingest.monitor.azure.com/dataCollectionRules/{{DCR-immutable-id}}/streams/Custom-SAPLogServ_CL?api-version=2023-01-01",
-        "method": "POST",
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors/{{dataConnectorName}}?api-version=2025-04-01-preview",
+        "method": "DELETE",
         "headers": [],
         "params": [
           {
             "name": "api-version",
-            "value": "2023-01-01",
+            "value": "2025-04-01-preview",
             "type": "query",
             "enabled": true
           }
         ],
         "body": {
-          "mode": "json",
-          "json": "[\n    {\n        \"_time\": {{30mAgo}},\n        \"host\": \"hec53v013858\",\n        \"_raw\": \"2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 \",\n        \"source\": \"/var/log/firewall\",\n        \"cribl_breaker\": \"fallback\",\n        \"index\": \"hec53_os\",\n        \"sourcetype\": \"linux_secure\",\n        \"clz_dir\": \"linux\",\n        \"clz_subdir\": \"linux_secure\",\n        \"cribl_pipe\": \"CGS_filemonitor_P\"\n    }\n]",
+          "mode": "none",
           "formUrlEncoded": [],
           "multipartForm": []
         },
-        "script": {
-          "req": "const now = Math.floor((Date.now() - 30 * 60 * 1000) / 1000);\nbru.setEnvVar(\"30mAgo\", now);"
-        },
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "auth": {
-          "mode": "bearer",
-          "bearer": {
-            "token": "{{bearerToken}}"
-          }
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Get Entra token for Smoke Test",
-      "seq": 1,
-      "request": {
-        "url": "https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token",
-        "method": "POST",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "formUrlEncoded",
-          "formUrlEncoded": [
+        "script": {},
+        "vars": {
+          "req": [
             {
-              "name": "client_id",
-              "value": "{{LogServ-Entra-App-Id}}",
-              "enabled": true
-            },
-            {
-              "name": "client_secret",
-              "value": "{{LogServ-Entra-App-Secret}}",
-              "enabled": true
-            },
-            {
-              "name": "scope",
-              "value": "https://monitor.azure.com/.default",
-              "enabled": true
-            },
-            {
-              "name": "grant_type",
-              "value": "client_credentials",
-              "enabled": true
+              "name": "dataConnectorName",
+              "value": "",
+              "enabled": true,
+              "local": false
             }
-          ],
-          "multipartForm": []
+          ]
         },
-        "script": {
-          "res": "var json = res.getBody();\nbru.setVar(\"bearerToken\", json.access_token);"
-        },
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "auth": {
-          "mode": "none"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "List Data Collection Endpoints",
-      "seq": 4,
-      "request": {
-        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Insights/dataCollectionEndpoints?api-version=2023-03-11",
-        "method": "GET",
-        "headers": [],
-        "params": [
-          {
-            "name": "api-version",
-            "value": "2023-03-11",
-            "type": "query",
-            "enabled": true
-          }
-        ],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "auth": {
-          "mode": "bearer",
-          "bearer": {
-            "token": "{{bearerToken}}"
-          }
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "List Data Connector Definitions",
-      "seq": 6,
-      "request": {
-        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions?api-version=2025-06-01",
-        "method": "GET",
-        "headers": [],
-        "params": [
-          {
-            "name": "api-version",
-            "value": "2025-06-01",
-            "type": "query",
-            "enabled": true
-          }
-        ],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "script": {},
-        "vars": {},
         "assertions": [],
         "tests": "",
         "auth": {
@@ -194,49 +88,16 @@
     },
     {
       "type": "http",
-      "name": "List Data Connectors",
-      "seq": 8,
+      "name": "Delete Data Connector Definition",
+      "seq": 7,
       "request": {
-        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2025-04-01-preview",
-        "method": "GET",
-        "headers": [],
-        "params": [
-          {
-            "name": "api-version",
-            "value": "2025-04-01-preview",
-            "type": "query",
-            "enabled": true
-          }
-        ],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "auth": {
-          "mode": "bearer",
-          "bearer": {
-            "token": "{{bearerToken}}"
-          }
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Delete Data Connector",
-      "seq": 9,
-      "request": {
-        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors/{{dataConnectorName}}?api-version=2025-04-01-preview",
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions/{{ConnectorDefinition}}?api-version=2025-06-01",
         "method": "DELETE",
         "headers": [],
         "params": [
           {
             "name": "api-version",
-            "value": "2025-04-01-preview",
+            "value": "2025-06-01",
             "type": "query",
             "enabled": true
           }
@@ -250,8 +111,8 @@
         "vars": {
           "req": [
             {
-              "name": "dataConnectorName",
-              "value": "",
+              "name": "ConnectorDefinition",
+              "value": "SAPLogServ",
               "enabled": true,
               "local": false
             }
@@ -315,11 +176,123 @@
     },
     {
       "type": "http",
-      "name": "Delete Data Connector Definition",
-      "seq": 7,
+      "name": "Get Entra token for Smoke Test",
+      "seq": 1,
       "request": {
-        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions/{{ConnectorDefinition}}?api-version=2025-06-01",
-        "method": "DELETE",
+        "url": "https://login.microsoftonline.com/{{Entra-ID-tenant}}/oauth2/v2.0/token",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "formUrlEncoded",
+          "formUrlEncoded": [
+            {
+              "name": "client_id",
+              "value": "{{LogServ-Entra-App-Id}}",
+              "enabled": true
+            },
+            {
+              "name": "client_secret",
+              "value": "{{LogServ-Entra-App-Secret}}",
+              "enabled": true
+            },
+            {
+              "name": "grant_type",
+              "value": "client_credentials",
+              "enabled": true
+            },
+            {
+              "name": "scope",
+              "value": "https://monitor.azure.com/.default",
+              "enabled": true
+            }
+          ],
+          "multipartForm": []
+        },
+        "script": {
+          "res": "var json = res.getBody();\nbru.setVar(\"bearerToken\", json.access_token);"
+        },
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Collection Endpoints",
+      "seq": 4,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Insights/dataCollectionEndpoints?api-version=2023-03-11",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2023-03-11",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Collection Rules",
+      "seq": 11,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.Insights/dataCollectionRules?api-version=2023-03-11",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2023-03-11",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Connector Definitions",
+      "seq": 6,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectorDefinitions?api-version=2025-06-01",
+        "method": "GET",
         "headers": [],
         "params": [
           {
@@ -335,16 +308,76 @@
           "multipartForm": []
         },
         "script": {},
-        "vars": {
-          "req": [
-            {
-              "name": "ConnectorDefinition",
-              "value": "SAPLogServ",
-              "enabled": true,
-              "local": false
-            }
-          ]
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Smoke Test",
+      "seq": 3,
+      "request": {
+        "url": "https://{{DCE-hostname}}.ingest.monitor.azure.com/dataCollectionRules/{{DCR-immutable-id}}/streams/Custom-SAPLogServ_CL?api-version=2023-01-01",
+        "method": "POST",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2023-01-01",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "json",
+          "json": "[\n    {\n        \"_time\": {{30mAgo}},\n        \"host\": \"hec53v013858\",\n        \"_raw\": \"2023-05-15T01:15:19.548148+00:00 hec53v013858 kernel: [217869.768664] FWD_DROP IN=eth0 OUT=vti1 MAC=02:6f:66:44:44:cc:02:81:12:21:97:60:08:00 SRC=10.186.74.172 DST=147.204.150.31 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=26760 DF PROTO=TCP SPT=15080 DPT=8065 WINDOW=26883 RES=0x00 SYN URGP=0 \",\n        \"source\": \"/var/log/firewall\",\n        \"cribl_breaker\": \"fallback\",\n        \"index\": \"hec53_os\",\n        \"sourcetype\": \"linux_secure\",\n        \"clz_dir\": \"linux\",\n        \"clz_subdir\": \"linux_secure\",\n        \"cribl_pipe\": \"CGS_filemonitor_P\"\n    }\n]",
+          "formUrlEncoded": [],
+          "multipartForm": []
         },
+        "script": {
+          "req": "const now = Math.floor((Date.now() - 30 * 60 * 1000) / 1000);\nbru.setEnvVar(\"30mAgo\", now);"
+        },
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "bearer",
+          "bearer": {
+            "token": "{{bearerToken}}"
+          }
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "List Data Connectors",
+      "seq": 8,
+      "request": {
+        "url": "https://management.azure.com/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.OperationalInsights/workspaces/{{workspaceName}}/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2025-04-01-preview",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "api-version",
+            "value": "2025-04-01-preview",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
         "assertions": [],
         "tests": "",
         "auth": {
@@ -356,7 +389,7 @@
       }
     }
   ],
-  "activeEnvironmentUid": "",
+  "activeEnvironmentUid": "67AJAIHEGqf0tgdpRTSdh",
   "environments": [
     {
       "variables": [
@@ -372,13 +405,6 @@
           "value": "",
           "enabled": true,
           "secret": false,
-          "type": "text"
-        },
-        {
-          "name": "LogServ-Entra-App-Secret",
-          "value": "",
-          "enabled": true,
-          "secret": true,
           "type": "text"
         },
         {
@@ -414,6 +440,13 @@
           "value": "",
           "enabled": true,
           "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "LogServ-Entra-App-Secret",
+          "value": "",
+          "enabled": true,
+          "secret": true,
           "type": "text"
         }
       ],
